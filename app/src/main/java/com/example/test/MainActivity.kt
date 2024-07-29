@@ -23,7 +23,13 @@ class MainActivity : AppCompatActivity() {
         var map3 = mapOf("name" to "页面3", "key" to "page3")
         var map4 = mapOf("name" to "页面4", "key" to "page4")
         var map5 = mapOf("name" to "页面5", "key" to "page5")
-        data = listOf(map1, map2, map3, map4, map5)
+        var map6 = mapOf("name" to "页面6", "key" to "page6")
+        var map7 = mapOf("name" to "页面7", "key" to "page7")
+        var map8 = mapOf("name" to "页面8", "key" to "page8")
+        var map9 = mapOf("name" to "页面9", "key" to "page9")
+        var map10 = mapOf("name" to "页面10", "key" to "page10")
+
+        data = listOf(map1, map2, map3, map4, map5, map6, map7, map8, map9, map10)
     }
     private fun handleListView() {
         val listView: ListView = findViewById(R.id.list_view)
@@ -36,6 +42,13 @@ class MainActivity : AppCompatActivity() {
             val key = item.get("key")
             var intent = when (key) {
                 "page1" -> Intent(this, page1Activity::class.java)
+                "page2" -> Intent(this, page2Activity::class.java)
+                "page3" -> Intent(this, page3Activity::class.java)
+                "page4" -> Intent(this, page4Activity::class.java)
+                "page5" -> Intent(this, page5Activity::class.java)
+                "page6" -> Intent(this, page6Activity::class.java)
+                "page7" -> Intent(this, page7Activity::class.java)
+
                 else -> null
             }
             intent?.let { startActivity(it) }
