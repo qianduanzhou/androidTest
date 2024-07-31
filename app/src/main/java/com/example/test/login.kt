@@ -1,6 +1,8 @@
 package com.example.test
 
 import android.os.Bundle
+import android.widget.EditText
+import android.widget.ImageView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.ViewCompat
@@ -15,6 +17,15 @@ class login : AppCompatActivity() {
             val systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars())
             v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom)
             insets
+        }
+        val userNameEditText: EditText = findViewById(R.id.username)
+        val passwordEditText: EditText = findViewById(R.id.password)
+        bindClearInput(userNameEditText)
+    }
+    private final fun bindClearInput(userNameEditText: EditText) {
+        val clearUserNameIcon: ImageView = findViewById(R.id.clearUserNameIcon)
+        clearUserNameIcon.setOnClickListener {
+            userNameEditText.setText("")
         }
     }
 }
