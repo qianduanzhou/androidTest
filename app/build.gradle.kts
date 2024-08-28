@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsKotlinAndroid)
+    id("kotlin-kapt")
 }
 
 android {
@@ -26,6 +27,11 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,6 +43,12 @@ android {
 }
 
 dependencies {
+    val lifecycleVersion = "2.6.2"
+    // Dagger 核心库
+    implementation("com.google.dagger:dagger:2.44")
+
+    // Dagger 编译器，用于生成依赖注入代码
+    kapt("com.google.dagger:dagger-compiler:2.44")
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -46,6 +58,23 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
     implementation("com.google.android.material:material:1.1.0")
+
+    // Jetpack Lifecycle components
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.databinding:databinding-runtime:7.0.0")
+
+    // 请求相关
+    implementation("com.squareup.retrofit2:retrofit:2.9.0")
+    implementation("com.squareup.retrofit2:converter-gson:2.9.0")
+    implementation("com.squareup.okhttp3:okhttp:4.10.0")
+    implementation("com.squareup.okhttp3:logging-interceptor:4.10.0")
+    implementation("org.jetbrains.kotlinx:kotlinx-coroutines-android:1.6.4")
+    implementation("com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2")
+
+    // 下拉刷新
+    implementation("androidx.swiperefreshlayout:swiperefreshlayout:1.1.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

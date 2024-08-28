@@ -1,0 +1,11 @@
+<resources>
+    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="android:titleTextAppearance">@style/CenterAlignedTitle</item>
+    </style>
+    <style name="CenterAlignedTitle" parent="TextAppearance.AppCompat.Widget.ActionBar.Title">
+        <item name="android:gravity">center</item> <!-- 文本位置 -->
+        <item name="android:textColor">@color/theme</item> <!-- 文本颜色 -->
+        <item name="android:textSize">18sp</item> <!-- 文本大小 -->
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>
