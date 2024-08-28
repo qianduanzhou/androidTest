@@ -26,6 +26,11 @@ android {
             )
         }
     }
+
+    buildFeatures {
+        dataBinding = true
+    }
+
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_1_8
         targetCompatibility = JavaVersion.VERSION_1_8
@@ -37,6 +42,7 @@ android {
 }
 
 dependencies {
+    val lifecycleVersion = "2.6.2"
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
@@ -46,6 +52,12 @@ dependencies {
     implementation("androidx.cardview:cardview:1.0.0")
     implementation("androidx.slidingpanelayout:slidingpanelayout:1.2.0")
     implementation("com.google.android.material:material:1.1.0")
+
+    // Jetpack Lifecycle components
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion")
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion")
+    implementation("androidx.activity:activity-ktx:1.7.2")
+    implementation("androidx.databinding:databinding-runtime:7.0.0")
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
