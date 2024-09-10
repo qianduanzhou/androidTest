@@ -122,7 +122,6 @@
                         android:paddingStart="12dp"
                         android:paddingEnd="12dp"
                         android:gravity="center_vertical"
-
                         android:background="@drawable/shape_gray_60_bg"
                         >
                         <ImageView
@@ -153,32 +152,30 @@
                         android:layout_height="0dp"
                         android:layout_weight="1"
                         android:layout_marginTop="12dp">
-
-                        <androidx.recyclerview.widget.RecyclerView
-                            android:id="@+id/repairList"
+                        <LinearLayout
                             android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            app:layout_constraintStart_toStartOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent" />
-
-                        <include
-                            android:id="@+id/repairLoading"
-                            layout="@layout/loading_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            />
-                        <include
-                            android:id="@+id/repairLoadingDone"
-                            layout="@layout/loadingdone_layout"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:visibility="gone"
-                            />
+                            android:layout_height="match_parent"
+                            android:orientation="vertical">
+                            <androidx.recyclerview.widget.RecyclerView
+                                android:id="@+id/repairList"
+                                android:layout_width="match_parent"
+                                android:layout_height="0dp"
+                                android:layout_weight="1"
+                              />
+                            <include
+                                android:id="@+id/repairLoading"
+                                layout="@layout/loading_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone" />
+                            <include
+                                android:id="@+id/repairLoadingDone"
+                                layout="@layout/loadingdone_layout"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:visibility="gone" />
+                            </LinearLayout>
                     </androidx.swiperefreshlayout.widget.SwipeRefreshLayout>
-
                 </LinearLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.constraintlayout.widget.ConstraintLayout>

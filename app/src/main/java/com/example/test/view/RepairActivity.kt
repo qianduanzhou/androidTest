@@ -64,7 +64,7 @@ class RepairActivity : AppCompatActivity() {
     private var page = 1 // 当前页码
     private var rows = 10 // 每页数量
     private var total = 0 // 总数量
-
+    private var isLoadingDone = false // 是否加载完成
     private var list: MutableList<Record> = mutableListOf() // 列表
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -293,7 +293,7 @@ class RepairActivity : AppCompatActivity() {
         // 下拉刷新
         repairRefreshLayout.setOnRefreshListener {
             page = 1
-            loadingDoneViewModel.hide()
+            isLoadingDone = false
             getList(isRefresh = true)
         }
         // 到底加载
@@ -305,10 +305,15 @@ class RepairActivity : AppCompatActivity() {
                 val visibleItemCount = layoutManager.childCount
                 val totalItemCount = layoutManager.itemCount
                 val pastVisibleItems = layoutManager.findFirstVisibleItemPosition()
-                if (!loadingViewModel.getLoading() && (visibleItemCount + pastVisibleItems) >= totalItemCount && !loadingDoneViewModel.getLoadingDone()) {
+                if (!loadingViewModel.getLoading() && (visibleItemCount + pastVisibleItems) >= totalItemCount && !isLoadingDone) {
                     // 到达底部，加载更多
                     page ++
                     getList(isRefresh = false)
+                }
+                if (isLoadingDone && (visibleItemCount + pastVisibleItems) >= totalItemCount) {
+                    loadingDoneViewModel.show()
+                } else {
+                    loadingDoneViewModel.hide()
                 }
             }
         })
@@ -336,7 +341,7 @@ class RepairActivity : AppCompatActivity() {
                     println("repairres,$res")
                     list.addAll(records)
                     if (list.size >= total) {
-                        loadingDoneViewModel.show()
+                        isLoadingDone = true
                     }
                     adapter = RepairAdapter(list)
                     recyclerView.adapter = adapter

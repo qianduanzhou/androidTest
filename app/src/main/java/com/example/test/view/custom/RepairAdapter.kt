@@ -1,5 +1,7 @@
 package com.example.test.view.custom
 
+import android.graphics.Color
+import android.graphics.drawable.Drawable
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -23,12 +25,28 @@ fun getFaultType(status: String): String? {
 }
 
 // 获取处理类型
-fun getFaultOrderStatus(status: String): String? {
+fun getFaultOrderStatus(status: String): Map<String, Any>? {
     val map = mapOf(
-        "0" to "待处理",
-        "1" to "处理中",
-        "2" to "已处理",
-        "3" to "已办结"
+        "0" to mapOf(
+            "text" to "待处理",
+            "color" to "#FE4C4D",
+            "background" to R.drawable.shape_state_red
+        ),
+        "1" to mapOf(
+            "text" to "处理中",
+            "color" to "#FBB143",
+            "background" to R.drawable.shape_state_orange
+        ),
+        "2" to mapOf(
+            "text" to "已处理",
+            "color" to "#00C55A",
+            "background" to R.drawable.shape_state_green
+        ),
+        "3" to mapOf(
+            "text" to "已办结",
+            "color" to "#00C55A",
+            "background" to R.drawable.shape_state_green
+        )
     )
     return map[status]
 }
@@ -38,9 +56,11 @@ class RepairAdapter(private val dataSet: List<Record>) :
 
     class ViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         val textView: TextView
+        val stateView: TextView
 
         init {
             textView = view.findViewById(R.id.title)
+            stateView = view.findViewById(R.id.state)
         }
     }
 
@@ -54,13 +74,16 @@ class RepairAdapter(private val dataSet: List<Record>) :
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         val data = dataSet[position]
         val faultTypeStr = getFaultType(data.faultType) as String
-        val orderStatusStr = getFaultOrderStatus(data.orderStatus) as String
+        val orderStatusMap = getFaultOrderStatus(data.orderStatus) as Map<String, Any>
         val pointInfo = data.pointInfo
         var managerName = ""
         if (pointInfo != null) {
             managerName = pointInfo.managerName
         }
         viewHolder.textView.text = data.deviceName
+        viewHolder.stateView.text = orderStatusMap["text"] as String
+        viewHolder.stateView.setBackgroundResource(orderStatusMap["background"] as Int)
+        viewHolder.stateView.setTextColor(Color.parseColor(orderStatusMap["color"] as String))
     }
 
     // Return the size of your dataset (invoked by the layout manager)
