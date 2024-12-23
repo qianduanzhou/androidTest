@@ -1,13 +1,13 @@
 package com.example.test.data.repository
-import com.example.test.data.model.LoginResponse
+import com.example.test.data.api.ApiService
+import com.example.test.data.model.LoginResponseData
+import com.example.test.utils.Result
+import com.example.test.utils.safeApiCall
 
-class LoginRepository {
-    fun login(username: String, password: String, verKey: String, verCode: String, grantType: String): LoginResponse {
-        // 模拟登录逻辑，这里你可以替换成API请求或数据库验证
-        return if (username == "admin" && password == "password") {
-            LoginResponse(success = true)
-        } else {
-            LoginResponse(success = false, errorMessage = "Invalid username or password")
+class LoginRepository(private val apiService: ApiService) {
+    suspend fun login(username: String, password: String, verKey: String, verCode: String, grantType: String): Result<LoginResponseData> {
+        return safeApiCall {
+            apiService.login(username, password, verKey, verCode, grantType);
         }
     }
 }

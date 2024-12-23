@@ -79,4 +79,10 @@ dependencies {
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
+    // 日期组件
+    implementation("com.google.android.material:material:1.1.0")
+    implementation("com.github.loperSeven:DateTimePicker:0.3.0")
+    //格式化日期
+    implementation("com.jakewharton.threetenabp:threetenabp:1.3.0")
 }

@@ -18,6 +18,7 @@ import com.example.test.viewmodel.CodeViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.test.utils.ViewModelFactory
 import com.example.test.data.repository.CodeRepository
+import com.example.test.data.repository.LoginRepository
 import com.example.test.network.RetrofitClient
 import com.example.test.data.api.ApiService
 import com.example.test.utils.Result
@@ -25,12 +26,16 @@ import com.example.test.data.model.CodeResponseData
 import android.graphics.BitmapFactory
 import android.text.InputType
 import android.util.Base64
+import android.view.View
+import android.widget.RelativeLayout
+import androidx.lifecycle.ViewModel
 
 class LoginActivity : AppCompatActivity() {
     private lateinit var binding: ActivityLoginBinding
-    private val loginViewModel: LoginViewModel by viewModels()
     private lateinit var codeViewModel: CodeViewModel
+    private lateinit var loginViewModel: LoginViewModel
     private lateinit var codeImage: ImageView
+    private lateinit var codeContent: RelativeLayout
     private val apiService = RetrofitClient.getCommonService()
     private var verKey: String = ""
     private var isPasswordVisible: Boolean = false
@@ -47,6 +52,8 @@ class LoginActivity : AppCompatActivity() {
         // 使用DataBinding设置布局
         setContentView(binding.root)
         codeImage = findViewById(R.id.codePic)
+        codeContent = findViewById(R.id.codeContent)
+        watchLogin()
         getCode()
         bindClearInput()
         bindEyeIconChange()
@@ -60,9 +67,14 @@ class LoginActivity : AppCompatActivity() {
         codeViewModel.code.observe(this, Observer { result ->
             when (result) {
                 is Result.Success -> {
-                    verKey = result.data.ver_key;
-                    // 显示数据
-                    updateImage(result.data)
+                    if (result.data == null) {
+                        codeContent.visibility = View.GONE
+                    } else {
+                        codeContent.visibility = View.VISIBLE
+                        verKey = result.data.ver_key;
+                        // 显示数据
+                        updateImage(result.data)
+                    }
                 }
                 is Result.Error -> {
                     // 显示错误信息
@@ -70,6 +82,36 @@ class LoginActivity : AppCompatActivity() {
             }
         })
         codeViewModel.fetchCode()
+    }
+    // 监听登录
+    private final fun watchLogin() {
+        // 初始化获取列表viewmodel
+        val loginRepository = LoginRepository(apiService)
+        val loginViewModelFactory = object : ViewModelProvider.Factory {
+            override fun <T : ViewModel> create(modelClass: Class<T>): T {
+                if (modelClass.isAssignableFrom(LoginViewModel::class.java)) {
+                    return LoginViewModel(loginRepository) as T
+                }
+                throw IllegalArgumentException("Unknown ViewModel class")
+            }
+        }
+        loginViewModel = ViewModelProvider(this, loginViewModelFactory).get(
+            LoginViewModel::class.java)
+
+
+        // 观察登录结果并更新UI
+        loginViewModel.login.observe(this, Observer { result ->
+            when (result) {
+                is Result.Success -> {
+                    Toast.makeText(this, "登录成功!", Toast.LENGTH_SHORT).show()
+                    val intent = Intent(this, RepairActivity::class.java)
+                    intent.let { startActivity(it) }
+                }
+                is Result.Error -> {
+                    Toast.makeText(this, result.message ?: "登录失败！", Toast.LENGTH_SHORT).show()
+                }
+            }
+        })
     }
     // 更新图片
     private fun updateImage(result: CodeResponseData) {
@@ -127,16 +169,5 @@ class LoginActivity : AppCompatActivity() {
             val verCode = binding.verCode.text.toString()
             loginViewModel.login(username, password, verKey, verCode, "password")
         }
-
-        // 观察登录结果并更新UI
-        loginViewModel.loginResponse.observe(this, Observer { result ->
-            if (result.success) {
-                Toast.makeText(this, "Login successful!", Toast.LENGTH_SHORT).show()
-                val intent = Intent(this, RepairActivity::class.java)
-                intent.let { startActivity(it) }
-            } else {
-                Toast.makeText(this, result.errorMessage ?: "Login failed", Toast.LENGTH_SHORT).show()
-            }
-        })
     }
 }
