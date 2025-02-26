@@ -8,7 +8,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
 object RetrofitClient {
-    private const val BASE_URL = "https://zxqsrj.com/sgeocserver/"
+    private const val BASE_URL = "http://southsmart.com/wushui/sgeocserver/"
     private var commonService: ApiService? = null
 
     private val loggingInterceptor = HttpLoggingInterceptor().apply {
