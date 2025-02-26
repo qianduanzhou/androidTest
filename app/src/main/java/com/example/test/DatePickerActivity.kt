@@ -62,7 +62,9 @@ class DatePickerActivity : AppCompatActivity() {
         val datePickerDialog = DatePickerDialog (
             this,
             { _, seletedYear, selectedMonth, selectedDay ->
-                val selectedDate = "$seletedYear-${selectedMonth + 1}-$selectedDay"
+                var month = (selectedMonth + 1).toString().padStart(2, '0')
+                var day = selectedDay.toString().padStart(2, '0')
+                val selectedDate = "$seletedYear-${month}-$day"
                 date = selectedDate
                 selectedDateTextView.text = date
             }, year, month, day

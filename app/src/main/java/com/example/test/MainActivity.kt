@@ -39,8 +39,8 @@ class MainActivity : AppCompatActivity() {
         var map6 = mapOf("name" to "页面6", "key" to "page6")
         var map7 = mapOf("name" to "页面7", "key" to "page7")
         var map8 = mapOf("name" to "datePicker", "key" to "datePicker")
-        var map9 = mapOf("name" to "页面9", "key" to "page9")
-        var map10 = mapOf("name" to "页面10", "key" to "page10")
+        var map9 = mapOf("name" to "chart", "key" to "chart")
+        var map10 = mapOf("name" to "login", "key" to "login")
 
         data = listOf(map1, map2, map3, map4, map5, map6, map7, map8, map9, map10)
     }
@@ -63,7 +63,8 @@ class MainActivity : AppCompatActivity() {
                 "page6" -> Intent(this, page6Activity::class.java)
                 "page7" -> Intent(this, page7Activity::class.java)
                 "datePicker" -> Intent(this, DatePickerActivity::class.java)
-
+                "chart" -> Intent(this, ChartActivity::class.java)
+                "login" -> Intent(this, LoginActivity::class.java)
                 else -> null
             }
             intent?.let { startActivity(it) }

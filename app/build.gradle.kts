@@ -85,4 +85,7 @@ dependencies {
     implementation("com.github.loperSeven:DateTimePicker:0.3.0")
     //格式化日期
     implementation("com.jakewharton.threetenabp:threetenabp:1.3.0")
+
+    //图表
+    implementation("com.github.PhilJay:MPAndroidChart:v3.1.0")
 }
